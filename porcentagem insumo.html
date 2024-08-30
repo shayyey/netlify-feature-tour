@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo de Percentual</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f0f8ff, #d0e6ff);
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .container:hover {
+            transform: scale(1.02);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: #34495e;
+            text-align: left;
+        }
+        input {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+            outline: none;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .result.success {
+            color: #27ae60;
+        }
+        .result.error {
+            color: #e74c3c;
+        }
+        .feedback {
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cálculo de Percentual</h1>
+        <label for="valortotal">Valor Total dos Insumos (R$):</label>
+        <input type="number" id="valortotal" step="0.01" placeholder="Digite o valor total" required oninput="validarCampos()">
+        
+        <label for="valorinsumo">Valor do Insumo (R$):</label>
+        <input type="number" id="valorinsumo" step="0.01" placeholder="Digite o valor do insumo" required oninput="validarCampos()">
+        
+        <button onclick="calcularPercentual()">Calcular Percentual</button>
+        
+        <div class="feedback" id="feedback">Preencha os campos acima para calcular.</div>
+        <div class="result" id="resultado"></div>
+    </div>
+
+    <script>
+        function validarCampos() {
+            const valortotal = parseFloat(document.getElementById('valortotal').value);
+            const valorinsumo = parseFloat(document.getElementById('valorinsumo').value);
+            const feedbackElement = document.getElementById('feedback');
+            const resultadoElement = document.getElementById('resultado');
+            
+            if (isNaN(valortotal) || isNaN(valorinsumo) || valortotal <= 0 || valorinsumo < 0) {
+                feedbackElement.innerText = "Os campos devem conter valores válidos.";
+                feedbackElement.style.color = "#e74c3c";
+            } else {
+                feedbackElement.innerText = "Pronto para calcular!";
+                feedbackElement.style.color = "#27ae60";
+            }
+        }
+
+        function calcularPercentual() {
+            const valortotal = parseFloat(document.getElementById('valortotal').value);
+            const valorinsumo = parseFloat(document.getElementById('valorinsumo').value);
+            const resultadoElement = document.getElementById('resultado');
+            
+            if (isNaN(valortotal) || isNaN(valorinsumo) || valortotal <= 0 || valorinsumo < 0) {
+                resultadoElement.innerText = "Por favor, insira valores válidos e positivos.";
+                resultadoElement.className = "result error";
+                return;
+            }
+
+            const porcentageminsumo = (valorinsumo * 100) / valortotal;
+            resultadoElement.innerText = `A porcentagem desse insumo do valor total é: ${porcentageminsumo.toFixed(2)}%`;
+            resultadoElement.className = "result success";
+        }
+    </script>
+</body>
+</html>
